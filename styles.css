@@ -1,0 +1,79 @@
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+}
+.main {
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  border: none;
+  background-color: antiquewhite;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.header {
+  background-color: aquamarine;
+  width: 100%;
+  text-align: center;
+  padding: 0px;
+}
+h1 {
+  font-weight: 800;
+  font-size: 80px;
+  color: blueviolet;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, auto);
+  justify-items: center;
+  gap: 20px;
+}
+
+.title {
+  font-size: 50px;
+  font-weight: 500;
+}
+
+.board {
+  display: grid;
+  grid-template: repeat(3, auto) / repeat(3, auto);
+  border: 10px solid black;
+}
+
+.grid {
+  width: 5rem;
+  height: 5rem;
+  border: 1px solid black;
+  background-color: azure;
+}
+
+.grid:hover {
+  background-color: rgb(160, 184, 184);
+}
+
+button {
+  padding: 10px 20px;
+  background-color: aquamarine;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+button:hover {
+  background-color: rgb(68, 174, 139);
+}
+.footer {
+  position: fixed;
+  bottom: 5px;
+}
+
+.footer a {
+  text-decoration: none;
+  color: inherit;
+}
