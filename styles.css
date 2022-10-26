@@ -63,11 +63,13 @@ h1 {
 }
 
 button {
+  margin-top: 20px;
   padding: 10px 20px;
   background-color: aquamarine;
   border: none;
   border-radius: 15px;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  font-size: larger;
 }
 button:hover {
   background-color: rgb(68, 174, 139);
