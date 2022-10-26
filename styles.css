@@ -1,10 +1,15 @@
+:root {
+  --row-num: 3;
+}
+
 html,
 body {
   padding: 0px;
   margin: 0px;
+  background-color: antiquewhite;
 }
 .main {
-  height: 100%;
+  height: auto;
   width: 100%;
   padding: 0px;
   margin: 0px;
@@ -32,7 +37,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(auto-fill, auto);
   justify-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .title {
@@ -42,7 +47,7 @@ h1 {
 
 .board {
   display: grid;
-  grid-template: repeat(3, auto) / repeat(3, auto);
+  grid-template: repeat(var(--row-num), auto) / repeat(var(--row-num), auto);
   border: 10px solid black;
 }
 
@@ -62,6 +67,10 @@ h1 {
   background-color: rgb(160, 184, 184);
 }
 
+.btns {
+  display: flex;
+  gap: 20px;
+}
 button {
   margin-top: 20px;
   padding: 10px 20px;
@@ -77,6 +86,7 @@ button:hover {
 .footer {
   position: fixed;
   bottom: 5px;
+  right: 5px;
 }
 
 .footer a {

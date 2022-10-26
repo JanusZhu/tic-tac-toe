@@ -42,13 +42,21 @@ const gameBoard = (() => {
   const getRow = () => {
     return row;
   };
-  return { getRow, getLength, setGrid, getGrid, reset };
+  const setRow = (newRow) => {
+    row = newRow;
+    length = Math.pow(row, 2);
+    board = createBoard(length);
+  };
+  return { setRow, getRow, getLength, setGrid, getGrid, reset };
 })();
 
 const displayController = (() => {
-  const grids = Array.from(document.querySelectorAll(".grid"));
+  const root = document.querySelector(":root");
+
   const resetBtn = document.querySelector(".reset");
+  const resizeBtn = document.querySelector(".resize");
   const title = document.querySelector("#title");
+  let grids = Array.from(document.querySelectorAll(".grid"));
   grids.forEach((grid) => {
     grid.addEventListener("click", () => {
       const index = Number(grid.getAttribute("data-id"));
@@ -60,12 +68,52 @@ const displayController = (() => {
       }
     });
   });
+
   resetBtn.addEventListener("click", () => {
     gameBoard.reset();
     gameController.reset();
     updateBoard();
   });
+
+  resizeBtn.addEventListener("click", () => {
+    const newRow = Number(prompt("Enter a new row/column number (from 2-5)."));
+    if (!newRow | (newRow > 5) | (newRow < 2)) return;
+    //reset row and length
+    gameBoard.setRow(newRow);
+    //reset grids
+    gameBoard.reset();
+    gameController.reset();
+    //create new html
+    renderBoard();
+    const newGrids = Array.from(document.querySelectorAll(".grid"));
+    newGrids.forEach((grid) => {
+      grid.addEventListener("click", () => {
+        const index = Number(grid.getAttribute("data-id"));
+        if (gameBoard.getGrid(index) !== "") {
+          return;
+        } else {
+          gameController.playRound(index);
+          updateBoard();
+          console.log("pressed");
+        }
+      });
+    });
+  });
+  const renderBoard = () => {
+    root.style.setProperty("--row-num", gameBoard.getRow());
+    const board = document.querySelector(".board");
+    while (board.firstChild) {
+      board.removeChild(board.firstChild);
+    }
+    for (let i = 0; i < gameBoard.getLength(); i++) {
+      const div = document.createElement("div");
+      div.className = "grid";
+      div.setAttribute("data-id", i);
+      board.appendChild(div);
+    }
+  };
   const updateBoard = () => {
+    grids = Array.from(document.querySelectorAll(".grid"));
     for (let i = 0; i < grids.length; i++) {
       grids[i].textContent = gameBoard.getGrid(i);
       grids[i].style.color = gameBoard.getGrid(i) === "O" ? "red" : "black";
@@ -112,16 +160,50 @@ const gameController = (() => {
   };
 
   const getWinner = (index, round) => {
-    const combinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
+    const createCombinations = () => {
+      let newCombinations = [];
+      const row = gameBoard.getRow();
+      const column = gameBoard.getRow();
+      //get row comb
+      for (let i = 0; i < row; i++) {
+        let rowComb = [];
+        for (let j = 0; j < column; j++) {
+          rowComb.push(i * row + j);
+        }
+        newCombinations.push(rowComb);
+      }
+      //get column comb
+      for (let i = 0; i < column; i++) {
+        let colComb = [];
+        for (let j = 0; j < row; j++) {
+          colComb.push(j * row + i);
+        }
+        newCombinations.push(colComb);
+      }
+      //get diagnal comb
+
+      let diagnalComb1 = [];
+      let k = 0;
+      for (let j = 0; j < row; j++) {
+        diagnalComb1.push(k);
+        k += row + 1;
+      }
+
+      newCombinations.push(diagnalComb1);
+
+      let diagnalComb2 = [];
+      k = column - 1;
+      for (let j = 0; j < row; j++) {
+        diagnalComb2.push(k);
+        k += row - 1;
+      }
+      newCombinations.push(diagnalComb2);
+
+      return newCombinations;
+    };
+
+    const combinations = createCombinations();
+    console.log(combinations);
     return combinations
       .filter((combination) => combination.includes(index))
       .some((possibleCombination) =>
