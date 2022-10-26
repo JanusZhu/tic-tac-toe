@@ -14,7 +14,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
 }
 
 .header {
@@ -37,7 +36,7 @@ h1 {
 }
 
 .title {
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 500;
 }
 
@@ -52,6 +51,11 @@ h1 {
   height: 5rem;
   border: 1px solid black;
   background-color: azure;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  font-size: 80px;
 }
 
 .grid:hover {
